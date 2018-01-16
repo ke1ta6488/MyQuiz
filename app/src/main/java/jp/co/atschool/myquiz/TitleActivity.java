@@ -20,7 +20,7 @@ public class TitleActivity extends AppCompatActivity {
     TextView titleTextView, subTextView;
     RotateAnimation rotate;
     SeekBar seekBar;
-    Button startButton, startButton2;
+    Button startButton, startButton2, startAllButton;
     View view;
     int rotateRate;
     float score=0;
@@ -36,14 +36,18 @@ public class TitleActivity extends AppCompatActivity {
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         titleTextView = (TextView) findViewById(R.id.textView);
         subTextView = (TextView) findViewById(R.id.textView2);
-        startButton = (Button) findViewById(R.id.button2);
+        startButton = (Button) findViewById(R.id.button);
         startButton2 = (Button) findViewById(R.id.button2);
+        startAllButton = (Button) findViewById(R.id.startAllButton);
+
         Log.d("スコアは", score + "");
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
         titleTextView.setTypeface(typeface);
         subTextView.setTypeface(typeface);
         startButton.setTypeface(typeface);
+        startButton2.setTypeface(typeface);
+        startAllButton.setTypeface(typeface);
 
 //        imageButton.setImageResource(R.mipmap.kagoshima);
 //        Matrix matrix = new Matrix();
@@ -115,21 +119,27 @@ challenge=true;
     }
 
     //クリック用
-    public void startRotation(View view){
+    public void startRotation(View view) {
         // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
-        rotateRate = seekBar.getProgress();
+        if (seekBar.getProgress() != 0) {
+            rotateRate = seekBar.getProgress();
 
-        rotate = new RotateAnimation(0.0f, 360.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setInterpolator(new LinearInterpolator());
-        // animation時間 msec
-        rotate.setDuration(2020+rotateRate*(-20));
-        // 繰り返し回数
-        rotate.setRepeatCount(-1);
-        // animationが終わったそのまま表示にする
-        rotate.setFillAfter(true);
-        //アニメーションの開始
-        imageButton.startAnimation(rotate);
+            rotate = new RotateAnimation(0.0f, 360.0f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotate.setInterpolator(new LinearInterpolator());
+            // animation時間 msec
+            rotate.setDuration(2020 + rotateRate * (-20));
+            // 繰り返し回数
+            rotate.setRepeatCount(-1);
+            // animationが終わったそのまま表示にする
+            rotate.setFillAfter(true);
+            //アニメーションの開始
+            imageButton.startAnimation(rotate);
+        }
+        else{
+            rotate.setRepeatCount(0);
+                Log.d("回転",  "しないはず");
+        }
     }
 
     @Override

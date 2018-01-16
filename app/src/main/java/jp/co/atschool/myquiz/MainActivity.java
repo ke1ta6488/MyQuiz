@@ -141,19 +141,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void startRotation(){
-        rotate = new RotateAnimation(0.0f, 360.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    public void startRotation() {
+        if (rotateRate != 0) {
+            rotate = new RotateAnimation(0.0f, 360.0f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-        rotate.setInterpolator(new LinearInterpolator());
-        // animation時間 msec
-        rotate.setDuration(1000+rotateRate*(-9));
-        // 繰り返し回数
-        rotate.setRepeatCount(-1);
-        // animationが終わったそのまま表示にする
-        rotate.setFillAfter(true);
-        //アニメーションの開始
-        imageButton.startAnimation(rotate);
+            rotate.setInterpolator(new LinearInterpolator());
+            // animation時間 msec
+            rotate.setDuration(1000 + rotateRate * (-9));
+            // 繰り返し回数
+            rotate.setRepeatCount(-1);
+            // animationが終わったそのまま表示にする
+            rotate.setFillAfter(true);
+            //アニメーションの開始
+            imageButton.startAnimation(rotate);
+        }
     }
 
     public void show(boolean challenge){
