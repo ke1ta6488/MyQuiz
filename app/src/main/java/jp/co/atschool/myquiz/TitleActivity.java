@@ -14,6 +14,9 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
+
 import java.util.Date;
 
 import io.realm.Realm;
@@ -31,7 +34,7 @@ public class TitleActivity extends AppCompatActivity {
     int rotateRate;
     float score = 0;
     boolean challenge, all;
-//    SharedPreferences preferences;
+    //    SharedPreferences preferences;
 //    SharedPreferences.Editor editor;
     Realm mRealm;
 
@@ -78,6 +81,13 @@ public class TitleActivity extends AppCompatActivity {
 
         //DBのオープン処理
         mRealm = Realm.getDefaultInstance();
+        //stethoの初期化処理
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
+
         //realmテスト用
         mTextView = findViewById(R.id.mTextView);
         create = findViewById(R.id.create);
@@ -106,7 +116,7 @@ public class TitleActivity extends AppCompatActivity {
                 });
             }
         });
-        //
+        //readボタンを押した時の処理
         read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,22 +133,22 @@ public class TitleActivity extends AppCompatActivity {
                 });
             }
         });
-
+        //updateボタンを押した時の処理
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mRealm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id",0).findFirst();
+                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", 0).findFirst();
                         myQuizRealm.title += "<更新>";
                         myQuizRealm.detail += "<更新>";
-                        mTextView.setText("更新しました¥n"+myQuizRealm.toString());
+                        mTextView.setText("更新しました¥n" + myQuizRealm.toString());
                     }
                 });
             }
         });
-
+        //deleteボタンを押した時の処理
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,6 +180,7 @@ public class TitleActivity extends AppCompatActivity {
 ////            score = prefer.getFloat("score", 0);
 ////            if (score >= 1.0) startButton2.setVisibility(View.VISIBLE);
 //    }
+
 
     public void startQuiz(View view) {
         // 画面の遷移用のクラスがIntentクラス

@@ -115,7 +115,7 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/speech_Button"
+            android:id="@+id/speechImageButton"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
@@ -124,6 +124,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="40dp"
             android:background="@null"
+            android:onClick="speechToText"
             android:scaleType="fitXY"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -131,6 +132,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/aichi" />
+
+        <TextView
+            android:id="@+id/speechTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:visibility="gone" />
 
     </LinearLayout>
 
