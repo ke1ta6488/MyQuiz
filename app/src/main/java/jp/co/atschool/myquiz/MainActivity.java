@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "神奈川県","静岡県","愛知県","山梨県","長野県","岐阜県","三重県","滋賀県","和歌山県","奈良県","大阪府","京都府","兵庫県","岡山県","鳥取県","島根県","山口県","広島県",
             "香川県","徳島県","愛媛県","高知県","福岡県","佐賀県","長崎県","大分県","熊本県","宮崎県","鹿児島県","沖縄県"};
     RotateAnimation rotate;
-    boolean challenge;
+    boolean challenge, all;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rotateRate = intent.getIntExtra("rotateRate", 50);
 
         score = intent.getIntExtra("score", 0);
-        challenge = intent.getBooleanExtra("challenge",false);
+        challenge = intent.getBooleanExtra("challenge", false);
+        all = intent.getBooleanExtra("all", false);
+        Log.d("２人モードか", ""+all);
         countTextView = (TextView) findViewById(R.id.countTextView);
         contentTextView = (TextView) findViewById(R.id.contentTextView);
         imageButton = (ImageButton) findViewById(R.id.image);
+
         //ボタンの関連付け
         buttons = new Button[4];
         buttons[0] = findViewById(R.id.button1);
@@ -66,12 +69,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
         contentTextView.setTypeface(typeface);
         countTextView.setTypeface(typeface);
-        for(Button button : buttons) {
+        for (Button button : buttons) {
             button.setTypeface(typeface);
             button.setOnClickListener(this);
         }
-        reset(challenge);
+        reset();
     }
+
 
     public int[] selectTdhk() {
         int[] num = new int [4];
@@ -100,16 +104,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             quizzes.add(quiz1);
         }
     }
-    public void reset(boolean challenge){
+    public void reset(){
         init();
-        show(challenge);
+        show();
     }
 
     public void next() {
         quizNum++;
         Intent intent;
         if (quizNum < quizzes.size()) {
-            show(challenge);
+            show();
         } else {
             //結果の表示方法
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 //もう一度やらせる
                 public void onClick(DialogInterface dialog, int which) {
-                    reset(challenge);
+                    reset();
                 }
             });
             builder.setNeutralButton("タイトルへ戻る", new DialogInterface.OnClickListener() {
@@ -158,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void show(boolean challenge){
+    public void show(){
         countTextView.setText((quizNum + 1) + "問目");
         Quiz quiz = quizzes.get(quizNum);
         buttons[0].setText(quiz.option1);

@@ -111,7 +111,26 @@
                 android:background="#66C6BA"
                 android:text="Button"
                 android:textSize="20sp" />
+
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/speech_Button"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="40dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/aichi" />
 
     </LinearLayout>
 

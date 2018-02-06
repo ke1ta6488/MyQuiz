@@ -14,24 +14,32 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Date;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class TitleActivity extends AppCompatActivity {
 
     ImageButton imageButton;
-    TextView titleTextView, subTextView;
+    TextView titleTextView, subTextView, mTextView;
     RotateAnimation rotate;
     SeekBar seekBar;
     Button startButton, startButton2, startAllButton;
+    Button create, read, update, delete;
     View view;
     int rotateRate;
-    float score=0;
-    boolean challenge;
+    float score = 0;
+    boolean challenge, all;
 //    SharedPreferences preferences;
 //    SharedPreferences.Editor editor;
+    Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
+
 
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         titleTextView = (TextView) findViewById(R.id.textView);
@@ -49,28 +57,102 @@ public class TitleActivity extends AppCompatActivity {
         startButton2.setTypeface(typeface);
         startAllButton.setTypeface(typeface);
 
-//        imageButton.setImageResource(R.mipmap.kagoshima);
-//        Matrix matrix = new Matrix();
-//        matrix.preScale(-1.0f, 1.0f);
-//        BitmapDrawable bd = (BitmapDrawable)imageButton.getDrawable();
-//        Bitmap bmp = bd.getBitmap();
-//        Bitmap bitmap  = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, false);
-//        imageButton.setImageBitmap(bitmap);
-
         //シークバーの初期値をTextViewに表示
-        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // ツマミをドラッグしたときに呼ばれる
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 rotateRate = seekBar.getProgress();
                 startRotation(view);
+            }
+        });
+
+        //DBのオープン処理
+        mRealm = Realm.getDefaultInstance();
+        //realmテスト用
+        mTextView = findViewById(R.id.mTextView);
+        create = findViewById(R.id.create);
+        read = findViewById(R.id.read);
+        update = findViewById(R.id.update);
+        delete = findViewById(R.id.delete);
+        //登録ボタンを押した時の処理
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //例外に入らなかったら
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Number max = realm.where(MyQuizRealm.class).max("id");
+                        long newId = 0;
+                        if (max != null) {
+                            newId = max.longValue() + 1;
+                        }
+                        MyQuizRealm myQuizRealm = realm.createObject(MyQuizRealm.class, newId);
+                        myQuizRealm.date = new Date();
+                        myQuizRealm.detail = "test";
+                        myQuizRealm.title = "わはは";
+                        mTextView.setText("登録完了¥n" + myQuizRealm.toString());
+                    }
+                });
+            }
+        });
+        //
+        read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        RealmResults<MyQuizRealm> myQuizRealms = realm.where(MyQuizRealm.class).findAll();
+                        mTextView.setText("取得");
+                        for (MyQuizRealm myQuizRealm : myQuizRealms) {
+                            String text = mTextView.getText() + "¥n" + myQuizRealm.toString();
+                            mTextView.setText(text);
+                        }
+                    }
+                });
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id",0).findFirst();
+                        myQuizRealm.title += "<更新>";
+                        myQuizRealm.detail += "<更新>";
+                        mTextView.setText("更新しました¥n"+myQuizRealm.toString());
+                    }
+                });
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Number min = realm.where(MyQuizRealm.class).min("id");
+                        if (min != null) {
+                            MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", min.longValue()).findFirst();
+                            myQuizRealm.deleteFromRealm();
+                            mTextView.setText("削除しました¥n" + myQuizRealm.toString());
+                        }
+                    }
+                });
             }
         });
     }
@@ -89,16 +171,18 @@ public class TitleActivity extends AppCompatActivity {
 ////            if (score >= 1.0) startButton2.setVisibility(View.VISIBLE);
 //    }
 
-    public void startQuiz(View view){
+    public void startQuiz(View view) {
         // 画面の遷移用のクラスがIntentクラス
-        Intent intent = new Intent( this, MainActivity.class );
+        Intent intent = new Intent(this, MainActivity.class);
         // Intent intent2 = new Intent(this, MainActivity.class);
-challenge=false;
+        challenge = false;
+        all = false;
         rotateRate = seekBar.getProgress();
         // intentへ添え字付で値を保持させる
-        intent.putExtra( "rotateRate", rotateRate);
+        intent.putExtra("rotateRate", rotateRate);
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
+        intent.putExtra("all", all);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);
@@ -106,16 +190,36 @@ challenge=false;
     }
 
     public void startQuiz2(View view) {
-        Intent intent = new Intent( this, MainActivity.class );
-challenge=true;
+        Intent intent = new Intent(this, MainActivity.class);
+        challenge = true;
+        all = false;
         rotateRate = seekBar.getProgress();
         // intentへ添え字付で値を保持させる
-        intent.putExtra( "rotateRate", rotateRate);
+        intent.putExtra("rotateRate", rotateRate);
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
+        intent.putExtra("all", all);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);
+    }
+
+    public void startAllQuiz(View view) {
+        // 画面の遷移用のクラスがIntentクラス
+        Intent intent = new Intent(this, MainActivity.class);
+        // Intent intent2 = new Intent(this, MainActivity.class);
+        challenge = false;
+        all = true;
+        rotateRate = seekBar.getProgress();
+        // intentへ添え字付で値を保持させる
+        intent.putExtra("rotateRate", rotateRate);
+        intent.putExtra("score", score);
+        intent.putExtra("challenge", challenge);
+        intent.putExtra("all", all);
+        // 指定のActivityを開始する
+
+        startActivityForResult(intent, 0);
+        // startActivity(intent2);
     }
 
     //クリック用
@@ -135,10 +239,9 @@ challenge=true;
             rotate.setFillAfter(true);
             //アニメーションの開始
             imageButton.startAnimation(rotate);
-        }
-        else{
+        } else {
             rotate.setRepeatCount(0);
-                Log.d("回転",  "しないはず");
+            Log.d("回転", "しないはず");
         }
     }
 
@@ -150,5 +253,11 @@ challenge=true;
             Log.d("スコアは", score + "");
             if (score >= 150.0) startButton2.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 }
