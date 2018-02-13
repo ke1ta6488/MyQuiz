@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import io.realm.Realm;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "香川県", "徳島県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "大分県", "熊本県", "宮崎県", "鹿児島県", "沖縄県"};
     RotateAnimation rotate;
     boolean challenge, all;
+    Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //問題をセット
         reset();
+
+        mRealm = Realm.getDefaultInstance();
     }
 
     public void speechToText(View view) {
@@ -174,9 +179,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             show();
         } else {
             //結果の表示方法
+
+            mRealm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    Number max = realm.where(MyQuizRealm.class).max("id");
+                    long newId = 0;
+                    if (max != null) {
+                        newId = max.longValue() + 1;
+                    }
+                    MyQuizRealm myQuizRealm = realm.createObject(MyQuizRealm.class, newId);
+                    //myQuizRealm.date = new Date();
+                    myQuizRealm.detail = String.valueOf(score);//score
+                    myQuizRealm.title = "user";//name
+                }
+            });
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("診断結果");
-
             builder.setCancelable(false);
             if (challenge) score = score * 2;
             builder.setMessage(quizzes.size() + "問中" + point + "問正解" + "\n" + "動体視力スコア：" + (int) score);
@@ -818,5 +838,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 次の問題にアップデートします。
         next();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 }

@@ -14,9 +14,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.facebook.stetho.Stetho;
-import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
-
 import java.util.Date;
 
 import io.realm.Realm;
@@ -81,12 +78,13 @@ public class TitleActivity extends AppCompatActivity {
 
         //DBのオープン処理
         mRealm = Realm.getDefaultInstance();
-        //stethoの初期化処理
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-                        .build());
+
+//        //stethoの初期化処理
+//        Stetho.initialize(
+//                Stetho.newInitializerBuilder(this)
+//                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+//                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+//                        .build());
 
         //realmテスト用
         mTextView = findViewById(R.id.mTextView);
@@ -140,7 +138,8 @@ public class TitleActivity extends AppCompatActivity {
                 mRealm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", 0).findFirst();
+                        Number max = realm.where(MyQuizRealm.class).max("id");
+                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", max.longValue()).findFirst();
                         myQuizRealm.title += "<更新>";
                         myQuizRealm.detail += "<更新>";
                         mTextView.setText("更新しました¥n" + myQuizRealm.toString());
@@ -252,7 +251,6 @@ public class TitleActivity extends AppCompatActivity {
             imageButton.startAnimation(rotate);
         } else {
             rotate.setRepeatCount(0);
-            Log.d("回転", "しないはず");
         }
     }
 
