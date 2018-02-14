@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -41,9 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView contentTextView, countTextView, speechTextView;
     ImageButton imageButton;
     String comment;
-    String[] tdhk = {"北海道", "青森県", "岩手県", "秋田県", "宮城県", "山形県", "福島県", "新潟県", "石川県", "富山県", "福井県", "茨城県", "栃木県", "群馬県", "千葉県", "埼玉県", "東京都",
-            "神奈川県", "静岡県", "愛知県", "山梨県", "長野県", "岐阜県", "三重県", "滋賀県", "和歌山県", "奈良県", "大阪府", "京都府", "兵庫県", "岡山県", "鳥取県", "島根県", "山口県", "広島県",
-            "香川県", "徳島県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "大分県", "熊本県", "宮崎県", "鹿児島県", "沖縄県"};
+    String[] tdhk, answers;
     RotateAnimation rotate;
     boolean challenge, all;
     Realm mRealm;
@@ -97,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             speechImageButton.setVisibility(View.GONE);
         }
 
+        //解答
+        tdhk = new String[]{"北海道", "青森県", "岩手県", "秋田県", "宮城県", "山形県", "福島県", "新潟県", "石川県", "富山県", "福井県", "茨城県", "栃木県", "群馬県", "千葉県", "埼玉県", "東京都",
+                "神奈川県", "静岡県", "愛知県", "山梨県", "長野県", "岐阜県", "三重県", "滋賀県", "和歌山県", "奈良県", "大阪府", "京都府", "兵庫県", "岡山県", "鳥取県", "島根県", "山口県", "広島県",
+                "香川県", "徳島県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "大分県", "熊本県", "宮崎県", "鹿児島県", "沖縄県"};
+
         //問題をセット
         reset();
 
@@ -123,11 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         str += s + "¥n";
                     }
                     speechTextView.setText(str);
+                    answers = str.split("¥n");
                 }
             }
             Quiz quiz = quizzes.get(quizNum);
             // ボタンの文字と、答えが同じかチェックします。
-            if (speechTextView.getText()==tdhk[quiz.answerNum]) {
+            //if (speechTextView.getText()==tdhk[quiz.answerNum]) {
+            if (Arrays.asList(answers).contains(tdhk[quiz.answerNum])){
                 point++;
                 score += 10.0 + (float) rotateRate / 10.0;
                 Toast.makeText(this, "正解", Toast.LENGTH_SHORT).show();

@@ -137,8 +137,7 @@
             android:id="@+id/speechTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:visibility="gone" />
+            android:text="あなたの回答" />
 
     </LinearLayout>
 
