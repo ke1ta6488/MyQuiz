@@ -28,7 +28,7 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolde
     @Override
     public void onBindViewHolder(ScoreViewHolder holder, int position) {
         holder.titleView.setText(list.get(position).getTitle());
-        holder.detailView.setText(list.get(position).getScore());
+        holder.detailView.setText(list.get(position).getDetail());
     }
 
     @Override

@@ -10,22 +10,45 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ScoreActivity extends AppCompatActivity {
 
-    TextView rankingTextView;
+    Realm realm;
+    List<ScoreData> scoreset;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_score);
-
         Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
+        final RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
+        scoreset = new ArrayList<>();
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
-        ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(this.createDataset());
+        realm = Realm.getDefaultInstance();
+        //ランキングに投入する値を取ってくる
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<MyQuizRealm> myQuizRealms = realm.where(MyQuizRealm.class).findAll();
+                for (MyQuizRealm myQuizRealm : myQuizRealms) {
+                    ScoreData data = new ScoreData();
+                    data.setDetail(myQuizRealm.detail);
+                    data.setTitle(myQuizRealm.title);
+                    scoreset.add(data);
+                }
+                count = scoreset.size();
+            }
+        });
 
-        TextView rankingTextView= (TextView) findViewById(R.id.rankingTextView);
+
+        //ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(this.createDataset());
+        ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(scoreset);
+
+        TextView rankingTextView = (TextView) findViewById(R.id.rankingTextView);
         rankingTextView.setTypeface(typeface);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -35,19 +58,6 @@ public class ScoreActivity extends AppCompatActivity {
         rv.setLayoutManager(llm);
 
         rv.setAdapter(adapter);
+
     }
-
-    private List<ScoreData> createDataset() {
-
-        List<ScoreData> dataset = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            ScoreData data = new ScoreData();
-            data.setTitle("カサレアル　太郎" + i + "号");
-            data.setScore("カサレアル　太郎は" + i + "個の唐揚げが好き");
-
-            dataset.add(data);
-        }
-        return dataset;
-    }
-
 }

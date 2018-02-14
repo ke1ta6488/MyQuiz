@@ -5,23 +5,23 @@ package jp.co.atschool.myquiz;
  */
 
 public class ScoreData {
-    private String name;
-    private String score;
+    private String title;
+    private String detail;
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setDetail(String score) {
+        this.detail = score;
     }
-    public String getScore() {
-        return score;
+    public String getDetail() {
+        return detail;
     }
 
 
     public void setTitle(String title) {
-        this.name = name;
+        this.title = title;
     }
 
     public String getTitle() {
-        return name;
+        return detail;
     }
 }
 

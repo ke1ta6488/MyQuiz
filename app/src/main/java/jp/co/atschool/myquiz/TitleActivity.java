@@ -44,7 +44,7 @@ public class TitleActivity extends AppCompatActivity {
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         titleTextView = (TextView) findViewById(R.id.textView);
         subTextView = (TextView) findViewById(R.id.textView2);
-        startButton = (Button) findViewById(R.id.button);
+        startButton = (Button) findViewById(R.id.startButton);
         startButton2 = (Button) findViewById(R.id.button2);
         startAllButton = (Button) findViewById(R.id.startAllButton);
 
@@ -252,6 +252,14 @@ public class TitleActivity extends AppCompatActivity {
         } else {
             rotate.setRepeatCount(0);
         }
+    }
+
+    public void showRanking(View view){
+        // 画面の遷移用のクラスがIntentクラス
+        Intent intent = new Intent(this, ScoreActivity.class);
+
+        // 指定のActivityを開始する
+        startActivityForResult(intent, 0);
     }
 
     @Override
