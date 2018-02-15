@@ -47,7 +47,6 @@ public class ScoreActivity extends AppCompatActivity {
             }
         });
 
-
         //ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(this.createDataset());
         ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(scoreset);
 
@@ -61,6 +60,8 @@ public class ScoreActivity extends AppCompatActivity {
         rv.setLayoutManager(llm);
 
         rv.setAdapter(adapter);
+
+        rv.addItemDecoration(new RecyclerViewDecoration(getBaseContext()));
 
     }
 }
