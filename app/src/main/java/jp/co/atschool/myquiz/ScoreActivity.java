@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class ScoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
         final RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy'年'MM'月'dd'日'E'曜日'k'時'mm'分'ss'秒'");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy'年'MM'月'dd'日'E'曜日'k'時ごろ'");
         scoreset = new ArrayList<>();
 
         realm = Realm.getDefaultInstance();
@@ -52,8 +51,8 @@ public class ScoreActivity extends AppCompatActivity {
         //ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(this.createDataset());
         ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(scoreset);
 
-        TextView rankingTextView = (TextView) findViewById(R.id.rankingTextView);
-        rankingTextView.setTypeface(typeface);
+        //TextView rankingTextView = (TextView) findViewById(R.id.rankingTextView);
+        //rankingTextView.setTypeface(typeface);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
 
