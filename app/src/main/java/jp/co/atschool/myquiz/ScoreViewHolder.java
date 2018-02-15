@@ -12,10 +12,13 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
 
     public TextView titleView;
     public TextView detailView;
+    public TextView dateView;
 
+    //recyclerViewに格納するセルの定義
     public ScoreViewHolder(View itemView) {
         super(itemView);
         titleView = (TextView) itemView.findViewById(R.id.title);
         detailView = (TextView) itemView.findViewById(R.id.detail);
+        dateView = (TextView) itemView.findViewById(R.id.date);
     }
 }

@@ -7,6 +7,7 @@ package jp.co.atschool.myquiz;
 public class ScoreData {
     private String title;
     private String detail;
+    private String date;
 
     public void setDetail(String score) {
         this.detail = score;
@@ -15,13 +16,14 @@ public class ScoreData {
         return detail;
     }
 
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getTitle() {
-        return detail;
+        return title;
     }
+
+    public void setDate(String date) {this.date = date;}
+    public String getDate() {return date;}
 }
 

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -82,18 +83,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //モードによって見た目を変える
-        if (all) {
+        if (all) {//みんな
             buttons[0].setVisibility(View.GONE);
             buttons[1].setVisibility(View.GONE);
             buttons[2].setVisibility(View.GONE);
             buttons[3].setVisibility(View.GONE);
             speechImageButton.setVisibility(View.VISIBLE);
+            speechTextView.setVisibility(View.VISIBLE);
         } else {
             buttons[0].setVisibility(View.VISIBLE);
             buttons[1].setVisibility(View.VISIBLE);
             buttons[2].setVisibility(View.VISIBLE);
             buttons[3].setVisibility(View.VISIBLE);
             speechImageButton.setVisibility(View.GONE);
+            speechTextView.setVisibility(View.GONE);
         }
 
         //解答
@@ -180,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void next() {
         quizNum++;
+        final Date date = new Date();
         Intent intent;
         if (quizNum < quizzes.size()) {
             show();
@@ -198,6 +202,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //myQuizRealm.date = new Date();
                     myQuizRealm.detail = String.valueOf(score);//score
                     myQuizRealm.title = "user";//name
+                    myQuizRealm.date = date;
+
                 }
             });
 

@@ -18,6 +18,7 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolde
         this.list = list;
     }
 
+    //Viewに渡すviewHolderを定義
     @Override
     public ScoreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.score, parent,false);
@@ -25,12 +26,14 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolde
         return vh;
     }
 
+    //ScoreViewHolderで定義した項目に対して値をセットする
     @Override
     public void onBindViewHolder(ScoreViewHolder holder, int position) {
         holder.titleView.setText(list.get(position).getTitle());
         holder.detailView.setText(list.get(position).getDetail());
+        holder.dateView.setText(list.get(position).getDate());
     }
-
+    //格納しているセル数を返す
     @Override
     public int getItemCount() {
         return list.size();
