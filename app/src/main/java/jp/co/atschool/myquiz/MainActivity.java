@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton speechImageButton;
     TextView contentTextView, countTextView, speechTextView;
     ImageButton imageButton;
-    String comment;
+    String comment, name;
     String[] tdhk, answers;
     RotateAnimation rotate;
     boolean challenge, all;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         score = intent.getIntExtra("score", 0);
         challenge = intent.getBooleanExtra("challenge", false);
         all = intent.getBooleanExtra("all", false);
+        name = intent.getStringExtra("name");
 
         Log.d("２人モードか", "" + all);
         // 関連付け
@@ -201,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MyQuizRealm myQuizRealm = realm.createObject(MyQuizRealm.class, newId);
                     //myQuizRealm.date = new Date();
                     myQuizRealm.detail = String.valueOf(score);//score
-                    myQuizRealm.title = "user";//name
+                    myQuizRealm.title = name;//name
                     myQuizRealm.date = date;
 
                 }

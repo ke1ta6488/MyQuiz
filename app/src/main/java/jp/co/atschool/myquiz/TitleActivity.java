@@ -5,11 +5,14 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,10 +22,11 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class TitleActivity extends AppCompatActivity {
+public class TitleActivity extends AppCompatActivity{
 
     ImageButton imageButton;
     TextView titleTextView, subTextView, mTextView;
+    EditText nameText;
     RotateAnimation rotate;
     SeekBar seekBar;
     Button startButton, startButton2, startAllButton;
@@ -30,20 +34,25 @@ public class TitleActivity extends AppCompatActivity {
     View view;
     int rotateRate;
     float score = 0;
+    String name;
     boolean challenge, all;
     //    SharedPreferences preferences;
 //    SharedPreferences.Editor editor;
     Realm mRealm;
+//    // キーボード表示を制御するためのオブジェクト
+//    InputMethodManager inputMethodManager;
+//    // 背景のレイアウト
+//    private View mFocusView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
 
-
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         titleTextView = (TextView) findViewById(R.id.textView);
         subTextView = (TextView) findViewById(R.id.textView2);
+        nameText = (EditText) findViewById(R.id.nameText);
         startButton = (Button) findViewById(R.id.startButton);
         startButton2 = (Button) findViewById(R.id.button2);
         startAllButton = (Button) findViewById(R.id.startAllButton);
@@ -56,6 +65,19 @@ public class TitleActivity extends AppCompatActivity {
         startButton.setTypeface(typeface);
         startButton2.setTypeface(typeface);
         startAllButton.setTypeface(typeface);
+
+        //editTextの表示方法指定
+        titleTextView.requestFocus();
+        nameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    // フォーカスが外れた場合キーボードを非表示にする
+                    InputMethodManager inputMethodMgr = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
 
         //シークバーの初期値をTextViewに表示
         seekBar = (SeekBar) findViewById(R.id.seekBar);
@@ -78,13 +100,6 @@ public class TitleActivity extends AppCompatActivity {
 
         //DBのオープン処理
         mRealm = Realm.getDefaultInstance();
-
-//        //stethoの初期化処理
-//        Stetho.initialize(
-//                Stetho.newInitializerBuilder(this)
-//                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-//                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-//                        .build());
 
         //realmテスト用
         mTextView = findViewById(R.id.mTextView);
@@ -187,32 +202,35 @@ public class TitleActivity extends AppCompatActivity {
         // Intent intent2 = new Intent(this, MainActivity.class);
         challenge = false;
         all = false;
+        name=nameText.getEditableText().toString();
+        Log.d("名前は",""+name);
         rotateRate = seekBar.getProgress();
         // intentへ添え字付で値を保持させる
         intent.putExtra("rotateRate", rotateRate);
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
         intent.putExtra("all", all);
+        intent.putExtra("name",name);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);
         // startActivity(intent2);
     }
 
-    public void startQuiz2(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        challenge = true;
-        all = false;
-        rotateRate = seekBar.getProgress();
-        // intentへ添え字付で値を保持させる
-        intent.putExtra("rotateRate", rotateRate);
-        intent.putExtra("score", score);
-        intent.putExtra("challenge", challenge);
-        intent.putExtra("all", all);
-        // 指定のActivityを開始する
-
-        startActivityForResult(intent, 0);
-    }
+//    public void startQuiz2(View view) {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        challenge = true;
+//        all = false;
+//        rotateRate = seekBar.getProgress();
+//        // intentへ添え字付で値を保持させる
+//        intent.putExtra("rotateRate", rotateRate);
+//        intent.putExtra("score", score);
+//        intent.putExtra("challenge", challenge);
+//        intent.putExtra("all", all);
+//        // 指定のActivityを開始する
+//
+//        startActivityForResult(intent, 0);
+//    }
 
     public void startAllQuiz(View view) {
         // 画面の遷移用のクラスがIntentクラス
@@ -220,12 +238,15 @@ public class TitleActivity extends AppCompatActivity {
         // Intent intent2 = new Intent(this, MainActivity.class);
         challenge = false;
         all = true;
+        name=nameText.getEditableText().toString();
+        Log.d("名前は",""+name);
         rotateRate = seekBar.getProgress();
         // intentへ添え字付で値を保持させる
         intent.putExtra("rotateRate", rotateRate);
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
         intent.putExtra("all", all);
+        intent.putExtra("name", name);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);
@@ -270,6 +291,12 @@ public class TitleActivity extends AppCompatActivity {
             Log.d("スコアは", score + "");
             if (score >= 150.0) startButton2.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        titleTextView.requestFocus();
+        return super.onTouchEvent(event);
     }
 
     @Override
