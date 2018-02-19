@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -16,8 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -108,27 +105,27 @@ public class TitleActivity extends AppCompatActivity{
         update = findViewById(R.id.update);
         delete = findViewById(R.id.delete);
         //登録ボタンを押した時の処理
-        create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //例外に入らなかったら
-                mRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        Number max = realm.where(MyQuizRealm.class).max("id");
-                        long newId = 0;
-                        if (max != null) {
-                            newId = max.longValue() + 1;
-                        }
-                        MyQuizRealm myQuizRealm = realm.createObject(MyQuizRealm.class, newId);
-                        myQuizRealm.date = new Date();
-                        myQuizRealm.detail = "test";
-                        myQuizRealm.title = "わはは";
-                        mTextView.setText("登録完了¥n" + myQuizRealm.toString());
-                    }
-                });
-            }
-        });
+////        create.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                //例外に入らなかったら
+////                mRealm.executeTransaction(new Realm.Transaction() {
+////                    @Override
+////                    public void execute(Realm realm) {
+////                        Number max = realm.where(MyQuizRealm.class).max("id");
+////                        long newId = 0;
+////                        if (max != null) {
+////                            newId = max.longValue() + 1;
+////                        }
+////                        MyQuizRealm myQuizRealm = realm.createObject(MyQuizRealm.class, newId);
+////                        myQuizRealm.date = new Date();
+////                        myQuizRealm.detail = "test";
+////                        myQuizRealm.title = "わはは";
+////                        mTextView.setText("登録完了¥n" + myQuizRealm.toString());
+////                    }
+////                });
+////            }
+//        });
         //readボタンを押した時の処理
         read.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,22 +143,22 @@ public class TitleActivity extends AppCompatActivity{
                 });
             }
         });
-        //updateボタンを押した時の処理
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        Number max = realm.where(MyQuizRealm.class).max("id");
-                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", max.longValue()).findFirst();
-                        myQuizRealm.title += "<更新>";
-                        myQuizRealm.detail += "<更新>";
-                        mTextView.setText("更新しました¥n" + myQuizRealm.toString());
-                    }
-                });
-            }
-        });
+//        //updateボタンを押した時の処理
+//        update.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mRealm.executeTransaction(new Realm.Transaction() {
+//                    @Override
+//                    public void execute(Realm realm) {
+//                        Number max = realm.where(MyQuizRealm.class).max("id");
+//                        MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", max.longValue()).findFirst();
+//                        myQuizRealm.title += "<更新>";
+//                        myQuizRealm.detail += "<更新>";
+//                        mTextView.setText("更新しました¥n" + myQuizRealm.toString());
+//                    }
+//                });
+//            }
+//        });
         //deleteボタンを押した時の処理
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,11 +290,11 @@ public class TitleActivity extends AppCompatActivity{
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        titleTextView.requestFocus();
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        titleTextView.requestFocus();
+//        return super.onTouchEvent(event);
+//    }
 
     @Override
     protected void onDestroy() {

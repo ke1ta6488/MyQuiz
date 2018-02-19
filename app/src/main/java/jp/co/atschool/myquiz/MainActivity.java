@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     MyQuizRealm myQuizRealm = realm.createObject(MyQuizRealm.class, newId);
                     //myQuizRealm.date = new Date();
-                    myQuizRealm.detail = String.valueOf(score);//score
+                    myQuizRealm.detail = score;//score
                     myQuizRealm.title = name;//name
                     myQuizRealm.date = date;
 

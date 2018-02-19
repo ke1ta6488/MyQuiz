@@ -14,6 +14,6 @@ public class MyQuizRealm extends RealmObject {
     public  long id;
     public Date date;
     public  String title;
-    public  String detail;
+    public  Float detail;
 
 }
