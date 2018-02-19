@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#649DAD"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     tools:context="jp.co.atschool.myquiz.TitleActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="casual"
         android:text="動体視力チャレンジ"
         android:textColor="@android:color/background_light"
@@ -26,13 +27,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="120dp"
         android:text="都道府県編"
         android:textColor="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
+        app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,13 +43,13 @@
         android:layout_height="196dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="32dp"
         android:background="@null"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@mipmap/akita" />
 
     <SeekBar
@@ -69,11 +70,9 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="378dp"
-        android:layout_height="62dp"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar">
@@ -92,7 +91,26 @@
             android:text="1人で遊ぶ"
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/startFancyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="120dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:onClick="startQuiz"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#7ab800"
+            fancy:fb_focusColor="#9bd823"
+            fancy:fb_fontIconResource="&#xf04b;"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="1人で遊ぶ"
+            fancy:fb_textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/button2"
@@ -110,9 +128,28 @@
             android:textColor="@android:color/background_light"
             android:visibility="gone" />
 
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/startFancyButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="120dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:onClick="startQuiz"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#E84545"
+            fancy:fb_focusColor="#E84545"
+            fancy:fb_fontIconResource="&#xf04b;"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="チャレンジ"
+            fancy:fb_textColor="#FFFFFF" />
+
     </LinearLayout>
 
-    <Button
+    <!--<Button
         android:id="@+id/startAllButton"
         android:layout_width="362dp"
         android:layout_height="43dp"
@@ -124,9 +161,35 @@
         android:text="みんなで遊ぶ"
         android:textColor="@android:color/background_light"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />-->
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/startAllFancyButton"
+        android:layout_width="362dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#364F6B"
+        android:onClick="startAllQuiz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.573"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#364F6B"
+        fancy:fb_focusColor="#364F6B"
+        fancy:fb_fontIconResource="&#xf04b;"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="みんなで遊ぶ"
+        fancy:fb_textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/read"
@@ -145,16 +208,17 @@
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:onClick="showRanking"
         android:text="ランキングを表示"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toEndOf="@+id/create"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/delete"
+
         android:layout_width="82dp"
         android:layout_height="37dp"
         android:layout_marginEnd="8dp"
@@ -215,7 +279,7 @@
         android:textColorLink="@color/colorPrimaryDark"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintHorizontal_bias="0.713"
         app:layout_constraintStart_toEndOf="@+id/read"
         app:layout_constraintTop_toTopOf="parent" />
 

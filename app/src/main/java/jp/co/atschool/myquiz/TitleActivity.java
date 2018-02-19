@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class TitleActivity extends AppCompatActivity {
 
@@ -29,6 +29,7 @@ public class TitleActivity extends AppCompatActivity {
     RotateAnimation rotate;
     SeekBar seekBar;
     Button startButton, startButton2, startAllButton;
+    FancyButton startFancyButton, startAllFancyButton,startFancyButton2;
     Button create, read, update, delete;
     View view;
     int rotateRate;
@@ -55,7 +56,10 @@ public class TitleActivity extends AppCompatActivity {
         nameText = (EditText) findViewById(R.id.nameText);
         startButton = (Button) findViewById(R.id.startButton);
         startButton2 = (Button) findViewById(R.id.button2);
-        startAllButton = (Button) findViewById(R.id.startAllButton);
+        //startAllButton = (Button) findViewById(R.id.startAllButton);
+        startFancyButton=(FancyButton) findViewById(R.id.startFancyButton);
+        startAllFancyButton = (FancyButton) findViewById(R.id.startAllFancyButton);
+        startFancyButton2 = (FancyButton) findViewById(R.id.startFancyButton2);
 
         // SensorManagerのインスタンスを取得する
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -63,22 +67,25 @@ public class TitleActivity extends AppCompatActivity {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
         titleTextView.setTypeface(typeface);
         subTextView.setTypeface(typeface);
-        startButton.setTypeface(typeface);
         startButton2.setTypeface(typeface);
-        startAllButton.setTypeface(typeface);
+        //startAllButton.setTypeface(typeface);
+        startFancyButton.setCustomTextFont("RiiTN_R.otf");
+        startAllFancyButton.setCustomTextFont("RiiTN_R.otf");
+        startFancyButton2.setCustomTextFont("RiiTN_R.otf");
+        nameText.setTypeface(typeface);
 
         //editTextの表示方法指定
-        titleTextView.requestFocus();
-        nameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus) {
-                    // フォーカスが外れた場合キーボードを非表示にする
-                    InputMethodManager inputMethodMgr = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-            }
-        });
+//        titleTextView.requestFocus();
+//        nameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(!hasFocus) {
+//                    // フォーカスが外れた場合キーボードを非表示にする
+//                    InputMethodManager inputMethodMgr = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+//                    inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//                }
+//            }
+//        });
 
         //シークバーの初期値をTextViewに表示
         seekBar = (SeekBar) findViewById(R.id.seekBar);
@@ -218,20 +225,20 @@ public class TitleActivity extends AppCompatActivity {
         // startActivity(intent2);
     }
 
-//    public void startQuiz2(View view) {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        challenge = true;
-//        all = false;
-//        rotateRate = seekBar.getProgress();
-//        // intentへ添え字付で値を保持させる
-//        intent.putExtra("rotateRate", rotateRate);
-//        intent.putExtra("score", score);
-//        intent.putExtra("challenge", challenge);
-//        intent.putExtra("all", all);
-//        // 指定のActivityを開始する
-//
-//        startActivityForResult(intent, 0);
-//    }
+    public void startQuiz2(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        challenge = true;
+        all = false;
+        rotateRate = seekBar.getProgress();
+        // intentへ添え字付で値を保持させる
+        intent.putExtra("rotateRate", rotateRate);
+        intent.putExtra("score", score);
+        intent.putExtra("challenge", challenge);
+        intent.putExtra("all", all);
+        // 指定のActivityを開始する
+
+        startActivityForResult(intent, 0);
+    }
 
     public void startAllQuiz(View view) {
         // 画面の遷移用のクラスがIntentクラス
@@ -290,7 +297,10 @@ public class TitleActivity extends AppCompatActivity {
         if (requestCode == 0 && resultCode == RESULT_OK) {
             score = data.getFloatExtra("score", score);
             Log.d("スコアは", score + "");
-            if (score >= 150.0) startButton2.setVisibility(View.VISIBLE);
+            if (score >= 150.0) {
+                //startButton2.setVisibility(View.VISIBLE);
+                startFancyButton2.setVisibility(View.VISIBLE);
+            }
         }
     }
 
