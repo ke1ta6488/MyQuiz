@@ -40,6 +40,7 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             public void execute(Realm realm) {
                 RealmResults<MyQuizRealm> myQuizRealms = realm.where(MyQuizRealm.class).findAllSorted("detail");
+                //Collections.reverse(myQuizRealms);
                 for (MyQuizRealm myQuizRealm : myQuizRealms) {
                     ScoreData data = new ScoreData();
                     data.setDetail(myQuizRealm.detail.toString());

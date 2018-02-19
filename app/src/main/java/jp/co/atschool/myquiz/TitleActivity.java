@@ -1,7 +1,9 @@
 package jp.co.atschool.myquiz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,7 +21,7 @@ import android.widget.TextView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class TitleActivity extends AppCompatActivity{
+public class TitleActivity extends AppCompatActivity {
 
     ImageButton imageButton;
     TextView titleTextView, subTextView, mTextView;
@@ -36,6 +38,7 @@ public class TitleActivity extends AppCompatActivity{
     //    SharedPreferences preferences;
 //    SharedPreferences.Editor editor;
     Realm mRealm;
+    SensorManager mSensorManager;
 //    // キーボード表示を制御するためのオブジェクト
 //    InputMethodManager inputMethodManager;
 //    // 背景のレイアウト
@@ -54,7 +57,8 @@ public class TitleActivity extends AppCompatActivity{
         startButton2 = (Button) findViewById(R.id.button2);
         startAllButton = (Button) findViewById(R.id.startAllButton);
 
-        Log.d("スコアは", score + "");
+        // SensorManagerのインスタンスを取得する
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
         titleTextView.setTypeface(typeface);

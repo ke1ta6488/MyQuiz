@@ -11,8 +11,9 @@ import java.util.List;
  * Created by nttr on 2018/02/07.
  */
 
-public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolder>{
+public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolder> {
     private List<ScoreData> list;
+
 
     public ScoreRecycleViewAdapter(List<ScoreData> list) {
         this.list = list;
@@ -21,8 +22,9 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolde
     //Viewに渡すviewHolderを定義
     @Override
     public ScoreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.score, parent,false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.score, parent, false);
         ScoreViewHolder vh = new ScoreViewHolder(inflate);
+
         return vh;
     }
 
@@ -31,8 +33,20 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolde
     public void onBindViewHolder(ScoreViewHolder holder, int position) {
         holder.titleView.setText(list.get(position).getTitle());
         holder.detailView.setText(list.get(position).getDetail());
+
+
         holder.dateView.setText(list.get(position).getDate());
+        if (position == 0) {
+            holder.rankImageView.setImageResource(R.drawable.rank_1);
+        } else if (position == 1) {
+            holder.rankImageView.setImageResource(R.drawable.rank_2);
+        } else if (position == 2) {
+            holder.rankImageView.setImageResource(R.drawable.rank_3);
+        } else {
+            holder.rankImageView.setImageResource(R.drawable.mousukosi);
+        }
     }
+
     //格納しているセル数を返す
     @Override
     public int getItemCount() {

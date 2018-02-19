@@ -70,6 +70,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/rankImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@mipmap/ic_launcher" />

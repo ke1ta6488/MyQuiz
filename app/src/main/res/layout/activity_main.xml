@@ -53,7 +53,7 @@
             android:padding="10dp"
             android:text="どこでしょう？"
             android:textAlignment="viewStart"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,13 +131,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/aichi" />
+            app:srcCompat="@drawable/input" />
 
         <TextView
             android:id="@+id/speechTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="あなたの回答" />
+            android:gravity="center"
+            android:text="分かったらマイクをタッチ！"
+            android:visibility="gone" />
 
     </LinearLayout>
 
