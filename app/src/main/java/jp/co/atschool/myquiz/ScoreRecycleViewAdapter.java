@@ -1,5 +1,6 @@
 package jp.co.atschool.myquiz;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,11 @@ public class ScoreRecycleViewAdapter extends RecyclerView.Adapter<ScoreViewHolde
     public ScoreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.score, parent, false);
         ScoreViewHolder vh = new ScoreViewHolder(inflate);
+
+        Typeface typeface = Typeface.createFromAsset(vh.itemView.getContext().getAssets(), "RiiTN_R.otf");
+        vh.titleView.setTypeface(typeface);
+        vh.dateView.setTypeface(typeface);
+        vh.detailView.setTypeface(typeface);
 
         return vh;
     }

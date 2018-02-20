@@ -20,6 +20,7 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
     public ScoreViewHolder(View itemView) {
         super(itemView);
         titleView = (TextView) itemView.findViewById(R.id.title);
+        //titleView.setTypeface();
         detailView = (TextView) itemView.findViewById(R.id.detail);
         dateView = (TextView) itemView.findViewById(R.id.date);
         rankImageView = (ImageView) itemView.findViewById(R.id.rankImageView);

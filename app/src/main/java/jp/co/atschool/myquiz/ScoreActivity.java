@@ -43,7 +43,7 @@ public class ScoreActivity extends AppCompatActivity {
                 //Collections.reverse(myQuizRealms);
                 for (MyQuizRealm myQuizRealm : myQuizRealms) {
                     ScoreData data = new ScoreData();
-                    data.setDetail(myQuizRealm.detail.toString());
+                    data.setDetail(String.valueOf(Math.round(myQuizRealm.detail)));
                     data.setTitle(myQuizRealm.title);
                     //data.setDate(("a").toString());
                     data.setDate(sdf.format(myQuizRealm.date));

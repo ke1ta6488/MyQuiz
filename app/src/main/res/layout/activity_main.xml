@@ -8,32 +8,34 @@
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     tools:context="jp.co.atschool.myquiz.MainActivity">
 
+    <ImageButton
+        android:id="@+id/image"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="80dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/aichi" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="388dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/image"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/aichi" />
+        app:layout_constraintTop_toBottomOf="@+id/image">
 
         <TextView
             android:id="@+id/countTextView"
@@ -42,7 +44,7 @@
             android:paddingLeft="30dp"
             android:text="第1問"
             android:textAlignment="viewStart"
-            android:textSize="24sp"
+            android:textSize="30sp"
             tools:layout_editor_absoluteX="148dp"
             tools:layout_editor_absoluteY="345dp" />
 
@@ -54,11 +56,12 @@
             android:padding="10dp"
             android:text="どこでしょう？"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <Button
@@ -70,7 +73,8 @@
                 android:layout_weight="1"
                 android:background="#66C6BA"
                 android:text="Button"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/button2"
@@ -81,12 +85,46 @@
                 android:layout_weight="1"
                 android:background="#66C6BA"
                 android:text="Button"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/fancyButton1"
+                android:layout_width="170dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#364F6B"
+                fancy:fb_focusColor="#6987ac"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="選択肢を表示"
+                fancy:fb_textColor="#FFFFFF"
+                fancy:fb_textSize="35dp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/fancyButton2"
+                android:layout_width="170dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="35dp"
+                android:layout_weight="1"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#364F6B"
+                fancy:fb_focusColor="#6987ac"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="選択肢を表示"
+                fancy:fb_textColor="#FFFFFF"
+                fancy:fb_textSize="35dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <Button
@@ -99,7 +137,8 @@
                 android:layout_weight="1"
                 android:background="#66C6BA"
                 android:text="Button"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/button4"
@@ -111,23 +150,57 @@
                 android:layout_weight="1"
                 android:background="#66C6BA"
                 android:text="Button"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/fancyButton3"
+                android:layout_width="170dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#364F6B"
+                fancy:fb_focusColor="#6987ac"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="選択肢を表示"
+                fancy:fb_textColor="#FFFFFF"
+                fancy:fb_textSize="35dp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/fancyButton4"
+                android:layout_width="170dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#364F6B"
+                fancy:fb_focusColor="#6987ac"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="選択肢を表示"
+                fancy:fb_textColor="#FFFFFF"
+                fancy:fb_textSize="35dp" />
 
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/speechImageButton"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="50dp"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="0dp"
             android:background="@null"
             android:onClick="speechToText"
             android:scaleType="fitXY"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -9,6 +9,7 @@ public class ScoreData {
     private String detail;
     private String date;
 
+
     public void setDetail(String score) {
         this.detail = score;
     }

@@ -18,7 +18,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class TitleActivity extends AppCompatActivity {
@@ -29,7 +28,7 @@ public class TitleActivity extends AppCompatActivity {
     RotateAnimation rotate;
     SeekBar seekBar;
     Button startButton, startButton2, startAllButton;
-    FancyButton startFancyButton, startAllFancyButton,startFancyButton2;
+    FancyButton startFancyButton, startAllFancyButton,startFancyButton2, rankingFancyButton;
     Button create, read, update, delete;
     View view;
     int rotateRate;
@@ -60,6 +59,7 @@ public class TitleActivity extends AppCompatActivity {
         startFancyButton=(FancyButton) findViewById(R.id.startFancyButton);
         startAllFancyButton = (FancyButton) findViewById(R.id.startAllFancyButton);
         startFancyButton2 = (FancyButton) findViewById(R.id.startFancyButton2);
+        rankingFancyButton = (FancyButton) findViewById(R.id.rankingFancyButton);
 
         // SensorManagerのインスタンスを取得する
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -70,8 +70,12 @@ public class TitleActivity extends AppCompatActivity {
         startButton2.setTypeface(typeface);
         //startAllButton.setTypeface(typeface);
         startFancyButton.setCustomTextFont("RiiTN_R.otf");
+        startFancyButton.setIconPadding(0,0,30,0);
         startAllFancyButton.setCustomTextFont("RiiTN_R.otf");
+        startAllFancyButton.setIconPadding(0,0,30,0);
         startFancyButton2.setCustomTextFont("RiiTN_R.otf");
+        startFancyButton2.setIconPadding(0,0,30,0);
+        rankingFancyButton.setCustomTextFont("RiiTN_R.otf");
         nameText.setTypeface(typeface);
 
         //editTextの表示方法指定
@@ -89,22 +93,29 @@ public class TitleActivity extends AppCompatActivity {
 
         //シークバーの初期値をTextViewに表示
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setProgress(0);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // ツマミをドラッグしたときに呼ばれる
+//                rotateRate = seekBar.getProgress();
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+//                rotateRate = seekBar.getProgress();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 rotateRate = seekBar.getProgress();
-                startRotation(view);
+                startRotation();
             }
+
         });
+
+//        rotateRate = seekBar.getProgress();
+//        startRotation(view);
 
         //DBのオープン処理
         mRealm = Realm.getDefaultInstance();
@@ -138,22 +149,22 @@ public class TitleActivity extends AppCompatActivity {
 ////            }
 //        });
         //readボタンを押した時の処理
-        read.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        RealmResults<MyQuizRealm> myQuizRealms = realm.where(MyQuizRealm.class).findAll();
-                        mTextView.setText("取得");
-                        for (MyQuizRealm myQuizRealm : myQuizRealms) {
-                            String text = mTextView.getText() + "¥n" + myQuizRealm.toString();
-                            mTextView.setText(text);
-                        }
-                    }
-                });
-            }
-        });
+//        read.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mRealm.executeTransaction(new Realm.Transaction() {
+//                    @Override
+//                    public void execute(Realm realm) {
+//                        RealmResults<MyQuizRealm> myQuizRealms = realm.where(MyQuizRealm.class).findAll();
+//                        mTextView.setText("取得");
+//                        for (MyQuizRealm myQuizRealm : myQuizRealms) {
+//                            String text = mTextView.getText() + "¥n" + myQuizRealm.toString();
+//                            mTextView.setText(text);
+//                        }
+//                    }
+//                });
+//            }
+//        });
 //        //updateボタンを押した時の処理
 //        update.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -171,22 +182,22 @@ public class TitleActivity extends AppCompatActivity {
 //            }
 //        });
         //deleteボタンを押した時の処理
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        Number min = realm.where(MyQuizRealm.class).min("id");
-                        if (min != null) {
-                            MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", min.longValue()).findFirst();
-                            myQuizRealm.deleteFromRealm();
-                            mTextView.setText("削除しました¥n" + myQuizRealm.toString());
-                        }
-                    }
-                });
-            }
-        });
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mRealm.executeTransaction(new Realm.Transaction() {
+//                    @Override
+//                    public void execute(Realm realm) {
+//                        Number min = realm.where(MyQuizRealm.class).min("id");
+//                        if (min != null) {
+//                            MyQuizRealm myQuizRealm = realm.where(MyQuizRealm.class).equalTo("id", min.longValue()).findFirst();
+//                            myQuizRealm.deleteFromRealm();
+//                            mTextView.setText("削除しました¥n" + myQuizRealm.toString());
+//                        }
+//                    }
+//                });
+//            }
+//        });
     }
 
 //    @Override
@@ -262,7 +273,7 @@ public class TitleActivity extends AppCompatActivity {
     }
 
     //クリック用
-    public void startRotation(View view) {
+    public void startRotation() {
         // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
         if (seekBar.getProgress() != 0) {
             rotateRate = seekBar.getProgress();
@@ -279,6 +290,7 @@ public class TitleActivity extends AppCompatActivity {
             //アニメーションの開始
             imageButton.startAnimation(rotate);
         } else {
+            rotate = new RotateAnimation(0,0,0,0);
             rotate.setRepeatCount(0);
         }
     }
@@ -286,6 +298,16 @@ public class TitleActivity extends AppCompatActivity {
     public void showRanking(View view){
         // 画面の遷移用のクラスがIntentクラス
         Intent intent = new Intent(this, ScoreActivity.class);
+
+//        SuperActivityToast.create(this,"Now loading",Style.TYPE_PROGRESS_BAR)
+//            .setIndeterminate(true)
+//            .setProgressIndeterminate(true)
+//            .setDuration(Style.DURATION_VERY_SHORT)
+////            .setProgressMax(100)
+////            .setProgress(20)
+//            .setFrame(Style.FRAME_KITKAT)
+//            .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED))
+//            .show();
 
         // 指定のActivityを開始する
         startActivityForResult(intent, 0);

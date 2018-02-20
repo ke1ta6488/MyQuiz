@@ -19,7 +19,10 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
+import com.github.johnpersano.supertoasts.library.utils.PaletteUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +32,7 @@ import java.util.List;
 import java.util.Random;
 
 import io.realm.Realm;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int[] tdhkNum;
     int rotateRate;
     Button[] buttons;
+    FancyButton[] fancyButtons;
     ImageButton speechImageButton;
     TextView contentTextView, countTextView, speechTextView;
     ImageButton imageButton;
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RotateAnimation rotate;
     boolean challenge, all;
     Realm mRealm;
+    Typeface typeface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,28 +80,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttons[1] = findViewById(R.id.button2);
         buttons[2] = findViewById(R.id.button3);
         buttons[3] = findViewById(R.id.button4);
+        fancyButtons= new FancyButton[4];
+        fancyButtons[0]=findViewById(R.id.fancyButton1);
+        fancyButtons[1]=findViewById(R.id.fancyButton2);
+        fancyButtons[2]=findViewById(R.id.fancyButton3);
+        fancyButtons[3]=findViewById(R.id.fancyButton4);
+
         speechImageButton = findViewById(R.id.speechImageButton);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
+        typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
         contentTextView.setTypeface(typeface);
         countTextView.setTypeface(typeface);
+
         for (Button button : buttons) {
             button.setTypeface(typeface);
             button.setOnClickListener(this);
         }
+        for (FancyButton fancyButton : fancyButtons) {
+            fancyButton.setCustomTextFont("RiiTN_R.otf");
+            fancyButton.setOnClickListener(this);
+        }
 
         //モードによって見た目を変える
         if (all) {//みんな
-            buttons[0].setVisibility(View.GONE);
-            buttons[1].setVisibility(View.GONE);
-            buttons[2].setVisibility(View.GONE);
-            buttons[3].setVisibility(View.GONE);
+//            buttons[0].setVisibility(View.GONE);
+//            buttons[1].setVisibility(View.GONE);
+//            buttons[2].setVisibility(View.GONE);
+//            buttons[3].setVisibility(View.GONE);
+            fancyButtons[0].setVisibility(View.GONE);
+            fancyButtons[1].setVisibility(View.GONE);
+            fancyButtons[2].setVisibility(View.GONE);
+            fancyButtons[3].setVisibility(View.GONE);
             speechImageButton.setVisibility(View.VISIBLE);
             speechTextView.setVisibility(View.VISIBLE);
         } else {
-            buttons[0].setVisibility(View.VISIBLE);
-            buttons[1].setVisibility(View.VISIBLE);
-            buttons[2].setVisibility(View.VISIBLE);
-            buttons[3].setVisibility(View.VISIBLE);
+//            buttons[0].setVisibility(View.VISIBLE);
+//            buttons[1].setVisibility(View.VISIBLE);
+//            buttons[2].setVisibility(View.VISIBLE);
+//            buttons[3].setVisibility(View.VISIBLE);
+            fancyButtons[0].setVisibility(View.VISIBLE);
+            fancyButtons[1].setVisibility(View.VISIBLE);
+            fancyButtons[2].setVisibility(View.VISIBLE);
+            fancyButtons[3].setVisibility(View.VISIBLE);
             speechImageButton.setVisibility(View.GONE);
             speechTextView.setVisibility(View.GONE);
         }
@@ -130,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (String s : results) {
                         str += s + "¥n";
                     }
-                    speechTextView.setText(str);
+                    //speechTextView.setText(str);
                     answers = str.split("¥n");
                 }
             }
@@ -140,9 +165,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (Arrays.asList(answers).contains(tdhk[quiz.answerNum])){
                 point++;
                 score += 10.0 + (float) rotateRate / 10.0;
-                Toast.makeText(this, "正解", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "正解", Toast.LENGTH_SHORT).show();
+
+                SuperActivityToast.create(this, "", Style.TYPE_STANDARD)
+                        //.setProgressBarColor(Color.WHITE)
+                        .setText("正解")//テキスト表示
+                        .setTextSize(40)
+                        .setDuration(Style.DURATION_VERY_SHORT)
+                        .setFrame(Style.FRAME_KITKAT)
+                        .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_BLUE))
+                        .setAnimations(Style.ANIMATIONS_SCALE)
+                        //.setIconPosition(Style.ICONPOSITION_LEFT)
+                        .show();
             } else {
-                Toast.makeText(this, "はずれ", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "はずれ", Toast.LENGTH_SHORT).show();
+                SuperActivityToast.create(this, "", Style.TYPE_STANDARD)
+                        //.setProgressBarColor(Color.WHITE)
+                        .setText("不正解")
+                        .setTextSize(40)
+                        //.setColor(PaletteUtils.getSolidColor(PaletteUtils.DARK_GREY))
+                        .setDuration(Style.DURATION_SHORT)
+                        .setFrame(Style.FRAME_KITKAT)
+                        .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED))
+                        .setAnimations(Style.ANIMATIONS_SCALE)
+                        .show();
             }
             next();
         }
@@ -185,8 +231,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void next() {
         quizNum++;
         final Date date = new Date();
-        Intent intent;
         if (quizNum < quizzes.size()) {
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             show();
         } else {
             //結果の表示方法
@@ -204,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myQuizRealm.detail = score;//score
                     myQuizRealm.title = name;//name
                     myQuizRealm.date = date;
-
                 }
             });
 
@@ -256,10 +305,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void show() {
         countTextView.setText((quizNum + 1) + "問目");
         Quiz quiz = quizzes.get(quizNum);
-        buttons[0].setText(quiz.option1);
-        buttons[1].setText(quiz.option2);
-        buttons[2].setText(quiz.option3);
-        buttons[3].setText(quiz.option4);
+//        buttons[0].setText(quiz.option1);
+//        buttons[1].setText(quiz.option2);
+//        buttons[2].setText(quiz.option3);
+//        buttons[3].setText(quiz.option4);
+
+        fancyButtons[0].setText(quiz.option1);
+        fancyButtons[1].setText(quiz.option2);
+        fancyButtons[2].setText(quiz.option3);
+        fancyButtons[3].setText(quiz.option4);
         //imageNum = rnd.nextInt(4);
         if (challenge) {
             Matrix matrix = new Matrix();
@@ -838,15 +892,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
-        Button clickedButton = (Button) view;
+//        Button clickedButton = (Button) view;
+        FancyButton clickedFancybutton = (FancyButton) view;
         Quiz quiz = quizzes.get(quizNum);
+//        SuperActivityToast superActivityToast = new SuperActivityToast(this, Style.TYPE_PROGRESS_CIRCLE);
+//        typeface = Typeface.createFromAsset(getAssets(), "RiiTN_R.otf");
+//        superActivityToast.setTypefaceStyle(Style.TypefaceStyle);
+
         // ボタンの文字と、答えが同じかチェックします。
-        if (TextUtils.equals(clickedButton.getText(), tdhk[quiz.answerNum])) {
+//        if (TextUtils.equals(clickedButton.getText(), tdhk[quiz.answerNum])) {
+        if (TextUtils.equals(clickedFancybutton.getText(), tdhk[quiz.answerNum])) {
             point++;
             score += 10.0 + (float) rotateRate / 10.0;
-            Toast.makeText(this, "正解", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "正解", Toast.LENGTH_SHORT).show();
+
+            // アニメーションを設定
+            SuperActivityToast.create(this, "", Style.TYPE_STANDARD)
+                    //.setProgressBarColor(Color.WHITE)
+                    .setText("正解")//テキスト表示
+                    .setTextSize(40)
+                    .setDuration(Style.DURATION_VERY_SHORT)
+                    .setFrame(Style.FRAME_KITKAT)
+                    .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_BLUE))
+                    .setAnimations(Style.ANIMATIONS_SCALE)
+                    //.setIconPosition(Style.ICONPOSITION_LEFT)
+                    .show();
+
         } else {
-            Toast.makeText(this, "はずれ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "はずれ", Toast.LENGTH_SHORT).show();
+
+//            superActivityToast.setText("Hello world!");
+//            superActivityToast.setIndeterminate(true);
+//            superActivityToast.setProgressIndeterminate(true);
+//            superActivityToast.setDuration(Style.DURATION_VERY_SHORT);
+//            superActivityToast.setProgressMax(100);
+//            superActivityToast.setProgress(20);
+//            superActivityToast.setFrame(Style.FRAME_KITKAT);
+//            superActivityToast.setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED));
+//            superActivityToast.show();
+
+            // アニメーションを設定
+            SuperActivityToast.create(this, "", Style.TYPE_STANDARD)
+                    //.setProgressBarColor(Color.WHITE)
+                    .setText("不正解")
+                    .setTextSize(40)
+                    //.setColor(PaletteUtils.getSolidColor(PaletteUtils.DARK_GREY))
+                    .setDuration(Style.DURATION_SHORT)
+                    .setFrame(Style.FRAME_KITKAT)
+                    .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED))
+                    .setAnimations(Style.ANIMATIONS_SCALE)
+                    .show();
         }
 
         // 次の問題にアップデートします。
