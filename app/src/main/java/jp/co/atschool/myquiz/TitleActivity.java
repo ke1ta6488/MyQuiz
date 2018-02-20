@@ -246,6 +246,7 @@ public class TitleActivity extends AppCompatActivity {
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
         intent.putExtra("all", all);
+        intent.putExtra("name",name);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);

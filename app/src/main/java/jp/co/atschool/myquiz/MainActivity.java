@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 import io.realm.Realm;
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -229,6 +230,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void next() {
+        final int LOOP_COUNT= 1;
+        CountDownLatch countDownLatch = new CountDownLatch(LOOP_COUNT);
+
+//        public static void main (String[] args) throws Exception {
+//            for (int i = 0; i < LOOP_COUNT; i++) {
+//                new Thread() {
+//                    public void run() {
+//                        System.out.println("wait...");
+//                        countDownLatch.countDown();
+//                    }
+//                }.start();
+//            }
+//            countDownLatch.await();
+//            System.out.println("finish!");
+//        }
+
+
+
         quizNum++;
         final Date date = new Date();
         if (quizNum < quizzes.size()) {
@@ -241,6 +260,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             //結果の表示方法
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("診断結果");
+            builder.setCancelable(false);
+            if (challenge) score = score * 2;
             mRealm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
@@ -256,11 +279,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myQuizRealm.date = date;
                 }
             });
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("診断結果");
-            builder.setCancelable(false);
-            if (challenge) score = score * 2;
             builder.setMessage(quizzes.size() + "問中" + point + "問正解" + "\n" + "動体視力スコア：" + (int) score);
             builder.setPositiveButton("リトライ", new DialogInterface.OnClickListener() {
                 @Override

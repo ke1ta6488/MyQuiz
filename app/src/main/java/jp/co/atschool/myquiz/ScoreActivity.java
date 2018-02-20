@@ -18,7 +18,7 @@ import io.realm.RealmResults;
 public class ScoreActivity extends AppCompatActivity {
 
     Realm realm;
-    List<ScoreData> scoreset;
+    List<ScoreData> scoreset, dummyScoreset;
     TextView rankingTextView;
     int count = 0;
 
@@ -33,12 +33,14 @@ public class ScoreActivity extends AppCompatActivity {
         rankingTextView = (TextView) findViewById(R.id.rankingTextView);
         rankingTextView.setTypeface(typeface);
         scoreset = new ArrayList<>();
+        dummyScoreset = new ArrayList<>();
 
         realm = Realm.getDefaultInstance();
         //ランキングに投入する値を取ってくる
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                int dataCount = 0;
                 RealmResults<MyQuizRealm> myQuizRealms = realm.where(MyQuizRealm.class).findAllSorted("detail");
                 //Collections.reverse(myQuizRealms);
                 for (MyQuizRealm myQuizRealm : myQuizRealms) {
@@ -52,7 +54,11 @@ public class ScoreActivity extends AppCompatActivity {
                 count = scoreset.size();
                 // RecyclerViewへのSet
                 Collections.reverse(scoreset);
-                ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(scoreset);
+                //上位10位だけでいいや
+                for (int i=0;i<10;i++) {
+                    dummyScoreset.add(scoreset.get(i));
+                }
+                ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(dummyScoreset);
                 rv.setAdapter(adapter);
             }
         });
