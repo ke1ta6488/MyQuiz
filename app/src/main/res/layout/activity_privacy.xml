@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jp.co.atschool.myquiz.PrivacyActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="299dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Application Privacy Policy"
+        android:textColor="#364F6B"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:text="1.法令遵守\n個人情報を取り扱うにあたっては、「個人情報の保護に関する法律」をはじめとする個人情報の保護に関する法令、ガイドラインおよび本プライバシーポリシーを遵守いたします。\n\n2.個人情報の利用目的\n個人情報を利用する場合、予め個人情報の利用目的を明示し、その利用目的の範囲内で利用します。予め明示した利用目的の範囲を超える必要が生じた場合は、その旨をご連絡し同意を頂いた上で利用します。それ以外の不正な方法で個人情報を収集することはありません。\n\n3.以下の場合を除き、お客様の個人情報を第三者に開示または提供しません。 \n・提供者の同意がある場合\n・法令に基づく場合\n・人の生命、身体又は財産の保護のために必要であって、お客様の同意を取ることが困難な場合\n・利用目的の達成に必要な範囲で、個人情報の取り扱いを委託する場合\n・不正行為やその他の違法行為を防ぐために個人情報の開示が必要となった場合" />
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

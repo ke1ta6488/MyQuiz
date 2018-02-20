@@ -27,8 +27,8 @@ public class TitleActivity extends AppCompatActivity {
     EditText nameText;
     RotateAnimation rotate;
     SeekBar seekBar;
-    Button startButton, startButton2, startAllButton;
-    FancyButton startFancyButton, startAllFancyButton,startFancyButton2, rankingFancyButton;
+    Button startButton, startButton2, startAllButton, privacyButton;
+    FancyButton startFancyButton, startAllFancyButton, startFancyButton2, rankingFancyButton;
     Button create, read, update, delete;
     View view;
     int rotateRate;
@@ -55,8 +55,9 @@ public class TitleActivity extends AppCompatActivity {
         nameText = (EditText) findViewById(R.id.nameText);
         startButton = (Button) findViewById(R.id.startButton);
         startButton2 = (Button) findViewById(R.id.button2);
+        privacyButton = (Button) findViewById(R.id.privacyButton);
         //startAllButton = (Button) findViewById(R.id.startAllButton);
-        startFancyButton=(FancyButton) findViewById(R.id.startFancyButton);
+        startFancyButton = (FancyButton) findViewById(R.id.startFancyButton);
         startAllFancyButton = (FancyButton) findViewById(R.id.startAllFancyButton);
         startFancyButton2 = (FancyButton) findViewById(R.id.startFancyButton2);
         rankingFancyButton = (FancyButton) findViewById(R.id.rankingFancyButton);
@@ -70,11 +71,11 @@ public class TitleActivity extends AppCompatActivity {
         startButton2.setTypeface(typeface);
         //startAllButton.setTypeface(typeface);
         startFancyButton.setCustomTextFont("RiiTN_R.otf");
-        startFancyButton.setIconPadding(0,0,30,0);
+        startFancyButton.setIconPadding(0, 0, 30, 0);
         startAllFancyButton.setCustomTextFont("RiiTN_R.otf");
-        startAllFancyButton.setIconPadding(0,0,30,0);
+        startAllFancyButton.setIconPadding(0, 0, 30, 0);
         startFancyButton2.setCustomTextFont("RiiTN_R.otf");
-        startFancyButton2.setIconPadding(0,0,30,0);
+        startFancyButton2.setIconPadding(0, 0, 30, 0);
         rankingFancyButton.setCustomTextFont("RiiTN_R.otf");
         nameText.setTypeface(typeface);
 
@@ -221,15 +222,15 @@ public class TitleActivity extends AppCompatActivity {
         // Intent intent2 = new Intent(this, MainActivity.class);
         challenge = false;
         all = false;
-        name=nameText.getEditableText().toString();
-        Log.d("名前は",""+name);
+        name = nameText.getEditableText().toString();
+        Log.d("名前は", "" + name);
         rotateRate = seekBar.getProgress();
         // intentへ添え字付で値を保持させる
         intent.putExtra("rotateRate", rotateRate);
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
         intent.putExtra("all", all);
-        intent.putExtra("name",name);
+        intent.putExtra("name", name);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);
@@ -246,7 +247,7 @@ public class TitleActivity extends AppCompatActivity {
         intent.putExtra("score", score);
         intent.putExtra("challenge", challenge);
         intent.putExtra("all", all);
-        intent.putExtra("name",name);
+        intent.putExtra("name", name);
         // 指定のActivityを開始する
 
         startActivityForResult(intent, 0);
@@ -258,8 +259,8 @@ public class TitleActivity extends AppCompatActivity {
         // Intent intent2 = new Intent(this, MainActivity.class);
         challenge = false;
         all = true;
-        name=nameText.getEditableText().toString();
-        Log.d("名前は",""+name);
+        name = nameText.getEditableText().toString();
+        Log.d("名前は", "" + name);
         rotateRate = seekBar.getProgress();
         // intentへ添え字付で値を保持させる
         intent.putExtra("rotateRate", rotateRate);
@@ -291,12 +292,12 @@ public class TitleActivity extends AppCompatActivity {
             //アニメーションの開始
             imageButton.startAnimation(rotate);
         } else {
-            rotate = new RotateAnimation(0,0,0,0);
+            rotate = new RotateAnimation(0, 0, 0, 0);
             rotate.setRepeatCount(0);
         }
     }
 
-    public void showRanking(View view){
+    public void showRanking(View view) {
         // 画面の遷移用のクラスがIntentクラス
         Intent intent = new Intent(this, ScoreActivity.class);
 
@@ -310,6 +311,13 @@ public class TitleActivity extends AppCompatActivity {
 //            .setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED))
 //            .show();
 
+        // 指定のActivityを開始する
+        startActivityForResult(intent, 0);
+    }
+
+    public void showPrivacy(View view) {
+        // 画面の遷移用のクラスがIntentクラス
+        Intent intent = new Intent(this, PrivacyActivity.class);
         // 指定のActivityを開始する
         startActivityForResult(intent, 0);
     }
