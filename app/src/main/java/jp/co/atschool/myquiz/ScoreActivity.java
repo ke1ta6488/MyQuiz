@@ -55,9 +55,14 @@ public class ScoreActivity extends AppCompatActivity {
                 // RecyclerViewへのSet
                 Collections.reverse(scoreset);
                 //上位10位だけでいいや
-                for (int i=0;i<10;i++) {
-                    dummyScoreset.add(scoreset.get(i));
+                if (scoreset.size() > 10) {
+                    for (int i = 0; i < 10; i++) {
+                        dummyScoreset.add(scoreset.get(i));
+                    }
+                } else {
+                    dummyScoreset = scoreset;
                 }
+
                 ScoreRecycleViewAdapter adapter = new ScoreRecycleViewAdapter(dummyScoreset);
                 rv.setAdapter(adapter);
             }
